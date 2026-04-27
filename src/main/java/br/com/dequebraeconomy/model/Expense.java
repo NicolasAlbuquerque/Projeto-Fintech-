@@ -14,12 +14,19 @@ public class Expense extends Transaction {
         super();
     }
 
+    public Expense(long id,long userId, LocalDate date, BigDecimal amount, String description, String paymentMethod, boolean paymentStatus, boolean recurringPayment, Category category) {
+        super(id, date, amount, description, category,userId);
+        this.paymentMethod = paymentMethod;
+        this.paymentStatus = paymentStatus;
+        this.recurringPayment = recurringPayment;
+    }
     public Expense(long id, LocalDate date, BigDecimal amount, String description, String paymentMethod, boolean paymentStatus, boolean recurringPayment, Category category) {
         super(id, date, amount, description, category);
         this.paymentMethod = paymentMethod;
         this.paymentStatus = paymentStatus;
         this.recurringPayment = recurringPayment;
     }
+
 
     public String getPaymentMethod() {
         return paymentMethod;

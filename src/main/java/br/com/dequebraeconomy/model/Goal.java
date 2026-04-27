@@ -22,8 +22,8 @@ public class Goal extends Transaction {
     }
 
     // Construtor Cheio
-    public Goal(long id,String description, LocalDate date, BigDecimal stipulatedAmount, LocalDate endDate, Category category) {
-        super(id ,date, BigDecimal.ZERO , description, category);
+    public Goal(long id,long userId, String description, LocalDate date, BigDecimal stipulatedAmount, LocalDate endDate, Category category) {
+        super(id ,date, BigDecimal.ZERO , description, category, userId);
         this.stipulatedAmount = stipulatedAmount;
         this.endDate = endDate;
         this.currentValue = BigDecimal.ZERO;

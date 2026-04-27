@@ -12,8 +12,8 @@ public class Investment extends Transaction {
     private boolean taxable;
     private BigDecimal interestRate;
 
-    public Investment(long id, LocalDate date, BigDecimal amount, String description, LocalDate payoutDate, String investmentName, String issuingBank, boolean taxable, BigDecimal interestRate,Category category){
-        super(id, date, amount, description, category);
+    public Investment(long id, long userId, LocalDate date, BigDecimal amount, String description, LocalDate payoutDate, String investmentName, String issuingBank, boolean taxable, BigDecimal interestRate,Category category){
+        super(id, date, amount, description, category, userId);
         this.payoutDate = payoutDate;
         this.investmentName = investmentName;
         this.issuingBank  = issuingBank;
