@@ -2,10 +2,7 @@ package br.com.dequebraeconomy.dao;
 
 
 import br.com.dequebraeconomy.factory.ConnectionFactory;
-import br.com.dequebraeconomy.model.Category;
-import br.com.dequebraeconomy.model.Expense;
-import br.com.dequebraeconomy.model.Income;
-import br.com.dequebraeconomy.model.Transaction;
+import br.com.dequebraeconomy.model.*;
 
 import javax.xml.transform.Result;
 import java.math.BigDecimal;
@@ -89,7 +86,7 @@ public class TransactionDao {
                 Long idUserT = result.getLong("id_user");
                 int idCategory = result.getInt("id_category");
                 LocalDate date = result.getDate("dt_transaction").toLocalDate();
-                BigDecimal amoutT = result.getBigDecimal("amount");
+                BigDecimal amountT = result.getBigDecimal("amount");
                 String description= result.getNString("ds_transaction");
 
 
@@ -114,7 +111,7 @@ public class TransactionDao {
                         String source = rsi.getString("sourceT");
 
                         Category category = Category.INCOME;
-                        return  new Income(idT,idUser,date, amoutT, description,source,category);
+                        return  new Income(idT,idUser,date, amountT, description,source,category);
 
 
                     }
@@ -138,17 +135,64 @@ public class TransactionDao {
 
                         Category category = Category.EXPENSE;
 //idT,date, amoutT, description,source,category
-                        return new Expense(idT,idUser,date,amoutT, description,paymentMeyhod,paymentStatus,recurring, category);
+                        return new Expense(idT,idUser,date,amountT, description,paymentMeyhod,paymentStatus,recurring, category);
 
                     }
 
 
 
                 }else if(idCategory == 3){
+                    String sqlInvest = "SELECT * FROM T_INVESTMENT WHERE ID_TRANSACTION = ? AND USER_ID = ?";
 
+
+                    try (PreparedStatement stmInvest = connection.prepareStatement(sqlInvest)){
+
+                        stmInvest.setLong(1, id);
+                        stmInvest.setLong(2, idUser);
+
+                        ResultSet rsInvest = stmInvest.executeQuery();
+
+                        if(!rsInvest.next()){
+                            throw  new SQLDataException("Transaction not found");
+                        }
+                            LocalDate payoutDate =rsInvest.getDate("payout_date").toLocalDate();
+                            String investName = rsInvest.getString("investment_name");
+                            String issuingBank = rsInvest.getString("issuing_bank");
+                            boolean taxable = rsInvest.getBoolean("taxabke");
+                            BigDecimal interestRate = rsInvest.getBigDecimal("interest_rate");
+
+                            Category category = Category.INVESTMENT;
+                            return  new Investment(id,idUser,date,amountT, description, payoutDate,investName,issuingBank,taxable,interestRate,category);
+                    }
+
+                } else if (idCategory == 4) {
+                    String sqlGoal = """
+        SELECT * FROM T_GOAL
+        WHERE ID_TRANSACTION = ?
+        AND ID_USER = ?
+    """;
+
+                    try (PreparedStatement stmGoal = connection.prepareStatement(sqlGoal)) {
+
+                        stmGoal.setLong(1, id);
+                        stmGoal.setLong(2, idUser);
+
+                        ResultSet rsGoal = stmGoal.executeQuery();
+
+                        if (!rsGoal.next()) {
+                            throw new SQLDataException("Transaction not found");
+                        }
+
+                        BigDecimal stipulatedAmount = rsGoal.getBigDecimal("stipulatedAmount");
+                        BigDecimal currentValue = rsGoal.getBigDecimal("currentValue");
+                        LocalDate endDate = rsGoal.getDate("endDate").toLocalDate();
+
+                        Category category = Category.GOAL;
+
+                        return new Goal(idT,idUser, description, date,stipulatedAmount,endDate,category);
                 }
 
-
+                }
 
 
             }
