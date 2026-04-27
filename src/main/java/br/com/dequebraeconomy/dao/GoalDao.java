@@ -27,7 +27,11 @@ public class GoalDao {
             stm.setDate(3, java.sql.Date.valueOf(g.getEndDate()));
             stm.setLong(4, g.getId());
 
-            stm.executeUpdate();
+            int rows = stm.executeUpdate();
+
+            if (rows == 0) {
+                throw new SQLException("Income not found");
+            }
         }
     }
 }

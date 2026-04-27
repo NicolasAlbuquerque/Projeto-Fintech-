@@ -31,7 +31,11 @@ public class InvestmentDao {
                 stm.setBigDecimal(5, i.getInterestRate());
                 stm.setLong(6, i.getId());
 
-                stm.executeUpdate();
+                int rows = stm.executeUpdate();
+
+                if (rows == 0) {
+                    throw new SQLException("Income not found");
+                }
             }
         }
     }
