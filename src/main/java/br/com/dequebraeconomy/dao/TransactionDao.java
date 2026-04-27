@@ -270,7 +270,7 @@ public class TransactionDao {
             stm.executeUpdate();
         }
 
-        // 🔥 DELEGAÇÃO CORRETA
+
         if (t instanceof Income income) {
             new IncomeDao().updateIncome(income);
         }
