@@ -9,22 +9,27 @@ public abstract class Transaction {
     private BigDecimal amount;
     private String description;
     private Category category;
+    private long userId;
 
     public Transaction() {
 
     }
 
-    public Transaction(long id,LocalDate date, BigDecimal amount, String description, Category category) {
+    public Transaction(long id,LocalDate date, BigDecimal amount, String description, Category category, long userId) {
         this.id =id;
         this.date = date;
         this.amount = amount;
         this.description = description;
         this.category = category;
+        this.userId = userId;
         if(category == Category.EXPENSE){
             this.amount = amount.abs().negate();
         }else {
             this.amount =   amount.abs();
         }
+    }
+
+    public Transaction(long id, LocalDate date, BigDecimal amount, String description, Category category) {
     }
 
     public LocalDate getDate() {

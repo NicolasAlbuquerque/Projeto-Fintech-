@@ -26,6 +26,17 @@ public class User {
         this.transactions = new ArrayList<>();
     }
 
+    public User(String name, String cpf, String email, String password, LocalDate birthDate) {
+        this.name = name;
+        this.cpf = cpf;
+        this.email = email;
+        this.password = password;
+        this.birthDate = birthDate;
+        this.transactions = transactions;
+    }
+
+
+
     public String getName() {
         return name;
     }
@@ -97,10 +108,10 @@ public class User {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Nome: ").append(this.name).append("\n");
+        sb.append("User ID: ").append(this.id).append("\n");
+        sb.append("Name: ").append(this.name).append("\n");
         sb.append("CPF: ").append(this.cpf).append("\n");
-        sb.append("E-mail: ").append(this.email).append("\n");
-        sb.append("Data de nascimento: ").append(this.birthDate).append("\n");
+        sb.append("Brith Date: ").append(this.birthDate).append("\n");
 
 
 

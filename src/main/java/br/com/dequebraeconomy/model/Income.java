@@ -11,8 +11,8 @@ public class Income extends Transaction {
         super();
     }
 
-    public Income(long id, LocalDate date, BigDecimal amount, String description, String source, Category category) {
-        super(id, date, amount, description, category);
+    public Income(long id, long userId, LocalDate date, BigDecimal amount, String description, String source, Category category) {
+        super(id, date, amount, description, category, userId);
         this.source = source;
 
     }
